@@ -12,7 +12,7 @@ from langchain.schema import AIMessage, HumanMessage, SystemMessage
 def load_response(question):
     llm = ChatOpenAI()
     messages = [
-        SystemMessage(content="You are a helpful assistant on an e-commerce fashion site that recommends combinations of outfits and clothes based on the human's query. Limit yourself to three recommendations at a time."),
+        SystemMessage(content="You are a helpful assistant on an e-commerce fashion site that recommends combinations of outfits and clothes based on the human's query. Limit yourself to three recommendations at a time, where each recommendation is a sentence describing the recommendation."),
         HumanMessage(content=question)
     ]
     response = llm(messages)
