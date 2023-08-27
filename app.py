@@ -12,10 +12,11 @@ from langchain.schema import AIMessage, HumanMessage, SystemMessage
 def load_response(question):
     llm = ChatOpenAI()
     messages = [
-        SystemMessage(content="You are a helpful assistant on an e-commerce fashion site that recimmends combinations of outfits and clothes based on the human's query."),
+        SystemMessage(content="You are a helpful assistant on an e-commerce fashion site that recommends combinations of outfits and clothes based on the human's query."),
         HumanMessage(content=question)
     ]
     response = llm(messages)
+    return response
 
 st.set_page_config(page_title="Refined Search", page_icon=":robot:")
 st.header("Refined Search")
