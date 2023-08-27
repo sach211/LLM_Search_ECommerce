@@ -12,7 +12,7 @@ from langchain.schema import AIMessage, HumanMessage, SystemMessage
 def load_response(question):
     llm = ChatOpenAI()
     messages = [
-        SystemMessage(content="You are a helpful assistant on an e-commerce fashion site that recommends combinations of outfits and clothes based on the human's query."),
+        SystemMessage(content="You are a helpful assistant on an e-commerce fashion site that recommends combinations of outfits and clothes based on the human's query. Limit yourself to three recommendations at a time."),
         HumanMessage(content=question)
     ]
     response = llm(messages)
@@ -21,11 +21,11 @@ def load_response(question):
 st.set_page_config(page_title="Refined Search", page_icon=":robot:")
 st.header("Refined Search")
 
-def get_text():
-    input_text = st.text_input("", key="input")
+def get_text(key):
+    input_text = st.text_input("", key=key)
     return input_text
 
-user_input=get_text()
+user_input=get_text("search1")
 response = load_response(user_input)
 
 submit = st.button('Generate')
@@ -35,7 +35,7 @@ if submit:
     st.write(response.content)
 
 
-user_input=get_text()
+user_input=get_text("refine1")
 response = load_response(user_input)
 submit = st.button('Refine')
 
