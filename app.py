@@ -49,15 +49,15 @@ def write_response(rawResponse):
     while(True):
         if refine_0 :
             return [REFINE_KEY, response[0]]
-        else if explore_0 : 
+        elif explore_0 : 
             return [EXPLORE_KEY, response[0]]
-        else if refine_1 :
+        elif refine_1 :
             return [REFINE_KEY, response[1]]
-        else if explore_1 : 
+        elif explore_1 : 
             return [EXPLORE_KEY, response[1]]
-        else if refine_2 :
+        elif refine_2 :
             return [REFINE_KEY, response[2]]
-        else if explore_2 : 
+        elif explore_2 : 
             return [EXPLORE_KEY, response[2]]
 
 '''def format_response_with_explore_refine(responseItem, index):
