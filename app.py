@@ -33,3 +33,12 @@ submit = st.button('Generate')
 if submit:
     st.subheader("Response: ")
     st.write(response.content)
+
+
+user_input=get_text()
+response = load_response(user_input)
+submit = st.button('Refine')
+
+if submit:
+    st.subheader("Response: ")
+    st.write(response.content)
