@@ -18,27 +18,45 @@ def load_response(question):
     response = llm(messages)
     return response
 
-st.set_page_config(page_title="Refined Search", page_icon=":robot:")
-st.header("Refined Search")
-
 def get_text(key):
     input_text = st.text_input("", key=key)
     return input_text
 
+def write_response(rawResponse):
+    response = rawResponse.content.splitlines()
+    for idx, item in enumerate(response):
+        format_response_with_explore_refine(item, idx)
+
+def format_response_with_explore_refine(responseItem, index):
+    st.write(responseItem.content)
+    refine = st.button('Refine', key = 'refine'+str(index))
+    explore = st.button('Explore', key = 'refine'+str(index))
+
+
+st.set_page_config(page_title="Refined Search", page_icon=":robot:")
+st.header("Refined Search")
+
 user_input=get_text("search1")
 response = load_response(user_input)
 
-submit = st.button('Generate')
+search = st.button('Search')
 
-if submit:
-    st.subheader("Response: ")
-    st.write(response.content)
+if search:
+    write_response(response)
+    
+
+    
 
 
-user_input=get_text("refine1")
-response = load_response(user_input)
-submit = st.button('Refine')
+    
+    '''while refine and not explore:
+        refine = not refine
+        user_input=get_text("refine1")
+        response = load_response(user_input)
+        refine = st.button('Refine')
+        explore = st.button('Explore')
 
-if submit:
-    st.subheader("Response: ")
-    st.write(response.content)
+        while refine and not explore:
+            refine = not refine
+        st.subheader("Response: ")
+        st.write(response.content)'''
