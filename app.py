@@ -30,7 +30,7 @@ def write_response(rawResponse):
 def format_response_with_explore_refine(responseItem, index):
     st.write(responseItem)
     refine = st.button('Refine', key = 'refine'+str(index))
-    explore = st.button('Explore', key = 'refine'+str(index))
+    explore = st.button('Explore', key = 'explore'+str(index))
 
 
 st.set_page_config(page_title="Refined Search", page_icon=":robot:")
