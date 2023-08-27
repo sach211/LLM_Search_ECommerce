@@ -59,15 +59,6 @@ def write_response(rawResponse):
             return [REFINE_KEY, response[2]]
         elif explore_2 : 
             return [EXPLORE_KEY, response[2]]
-
-'''def format_response_with_explore_refine(responseItem, index):
-    st.write(responseItem)
-    refine = st.button('Refine', key = 'refine'+str(index))
-    explore = st.button('Explore', key = 'explore'+str(index))
-
-def check_for_clicks(responseCount):
-    for i in range(responseCount):
-        if '''
     
 
 st.set_page_config(page_title="Refined Search", page_icon=":robot:")
@@ -89,20 +80,3 @@ if search:
     if nextAction[1] == EXPLORE_KEY:
         st.header("Now exploring: "+ nextAction[1])
         
-        
-
-    
-
-
-    
-    '''while refine and not explore:
-        refine = not refine
-        user_input=get_text("refine1")
-        response = load_response(user_input)
-        refine = st.button('Refine')
-        explore = st.button('Explore')
-
-        while refine and not explore:
-            refine = not refine
-        st.subheader("Response: ")
-        st.write(response.content)'''
