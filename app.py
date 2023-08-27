@@ -28,7 +28,7 @@ def write_response(rawResponse):
         format_response_with_explore_refine(item, idx)
 
 def format_response_with_explore_refine(responseItem, index):
-    st.write(responseItem.content)
+    st.write(responseItem)
     refine = st.button('Refine', key = 'refine'+str(index))
     explore = st.button('Explore', key = 'refine'+str(index))
 
