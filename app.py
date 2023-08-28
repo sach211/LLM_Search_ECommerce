@@ -60,16 +60,15 @@ def write_refine_response(rawResponse):
     st.write(response)
 
     user_input = get_text("refine_or_explore_r")
-    refine_r = st.button('Refine', key = 'refine_r')
-    explore_r = st.button('Explore', key = 'explore_r')
+    refine_r = st.button('Refine')
+    explore_r = st.button('Explore')
 
     while True:
         if refine_r:
-            user_input = user_input.splitlines()
-            return [REFINE_KEY,  response[int(user_input[0])] + "\n" + user_input[1]]
+            return [REFINE_KEY,  response + "\n" + user_input]
             
         if explore_r:
-            return [EXPLORE_KEY, response[int(user_input)]]
+            return [EXPLORE_KEY, response]
 
 
 state = st.session_state
