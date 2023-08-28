@@ -14,9 +14,10 @@ REFINE_KEY = 0
 EXPLORE_KEY = 1
 INDUSTRY = "fashion"
 PURPOSE = "recommends combinations of clothes"
+EXAMPLE = "Neutral colored Midi-length Dresses with Blazers."
 
-SEARCH_SYSTEM_PROMPT = "You are a helpful assistant on an e-commerce " + INDUSTRY + " site that " + PURPOSE + " based on the human's query. Limit yourself to " + str(RESPONSE_LIMIT) + " recommendations at a time, where each recommendation is a sentence describing the recommendation."
-REFINE_SYSTEM_PROMPT = SEARCH_SYSTEM_PROMPT + "The customer will give two queries separated by \n, the second will be a refined version of the first. Use the second to make adjustments to the first, and provide a response to the final resultant query."
+SEARCH_SYSTEM_PROMPT = "You are a helpful assistant on an e-commerce " + INDUSTRY + " site that " + PURPOSE + " based on the human's query. Limit yourself to " + str(RESPONSE_LIMIT) + " recommendations at a time, where each recommendation is a short and direct sentence describing the recommendation. Example : '" + EXAMPLE + "'"
+REFINE_SYSTEM_PROMPT = "You will receive two statements from the human as an input separated by '\n'. The second statement is a correction to be made to the first. Return the resultant statement by changing the first statement to include the second."
 
 def load_response(question, systemPrompt):
     llm = ChatOpenAI()
@@ -31,7 +32,7 @@ def get_text(key):
     input_text = st.text_input("", key=key)
     return input_text
 
-def write_response(rawResponse):
+def write_search_response(rawResponse):
     response = rawResponse.content.splitlines()
 
     st.write(response[0])
@@ -49,16 +50,29 @@ def write_response(rawResponse):
     while(True):
         if refine_0 :
             return [REFINE_KEY, response[0]]
-        elif explore_0 : 
+        if explore_0 : 
             return [EXPLORE_KEY, response[0]]
-        elif refine_1 :
+        if refine_1 :
             return [REFINE_KEY, response[1]]
-        elif explore_1 : 
+        if explore_1 : 
             return [EXPLORE_KEY, response[1]]
-        elif refine_2 :
+        if refine_2 :
             return [REFINE_KEY, response[2]]
-        elif explore_2 : 
+        if explore_2 : 
             return [EXPLORE_KEY, response[2]]
+
+def write_search_response(rawResponse):
+    response = rawResponse.content
+
+    st.write(response)
+    refine_r = st.button('Refine', key = 'refine_r')
+    explore_r = st.button('Explore', key = 'explore_r')
+
+    if refine_r:
+        return [REFINE_KEY, response]
+
+    if explore_r:
+        return [EXPLORE_KEY, response]
 
 
 state = st.session_state
@@ -75,12 +89,12 @@ search = st.button('Search')
 
 if search or state.submitted:
     state.submitted = True
-    nextAction = write_response(response)
+    nextAction = write_search_response(response)
     while nextAction[0] == REFINE_KEY:
         user_input = get_text("refine")
         refine_query = nextAction[1] + "\n" + user_input
         response = load_response(refine_query, REFINE_SYSTEM_PROMPT)
-        nextAction = write_response(response)
+        nextAction = write_refine_response(response)
 
     if nextAction[1] == EXPLORE_KEY:
         st.header("Now exploring: "+ nextAction[1])
