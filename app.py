@@ -44,14 +44,15 @@ def write_search_response(rawResponse):
     refine = st.button('Refine')
     explore = st.button('Explore')
 
-    if refine :
-        selected_prompt = get_text("selected_refine")
-        user_input = get_text("refine")
-        return [REFINE_KEY,  response[int(selected_prompt) + "\n " + user_input]]
+    while True:
+        if refine :
+            selected_prompt = get_text("selected_refine")
+            user_input = get_text("refine")
+            return [REFINE_KEY,  response[int(selected_prompt) + "\n " + user_input]]
         
-    if explore : 
-        selected_prompt = get_text("selected_explore")
-        return [EXPLORE_KEY, response[int(selected_prompt)]]
+        if explore : 
+            selected_prompt = get_text("selected_explore")
+            return [EXPLORE_KEY, response[int(selected_prompt)]]
 
     st.write("We're out of write search")
     
