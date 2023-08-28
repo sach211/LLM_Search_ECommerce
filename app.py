@@ -60,8 +60,8 @@ def write_refine_response(rawResponse):
     st.write(response)
 
     user_input = get_text("refine_or_explore_r")
-    refine_r = st.button('Refine')
-    explore_r = st.button('Explore')
+    refine_r = st.button('Refine', key = 'refine_r')
+    explore_r = st.button('Explore', key = 'explore_r')
 
     while True:
         if refine_r:
