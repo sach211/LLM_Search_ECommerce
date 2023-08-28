@@ -1,5 +1,4 @@
 import streamlit as st
-import st_state_patch
 
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts.chat import (
@@ -60,8 +59,12 @@ def write_response(rawResponse):
             return [REFINE_KEY, response[2]]
         elif explore_2 : 
             return [EXPLORE_KEY, response[2]]
-    
 
+
+state = st.session_state
+if "submitted" not in state:
+    state.submitted = False
+    
 st.set_page_config(page_title="Refined Search", page_icon=":robot:")
 st.header("Refined Search")
 
@@ -70,13 +73,8 @@ response = load_response(user_input, SEARCH_SYSTEM_PROMPT)
 
 search = st.button('Search')
 
-s = st.State() 
-if not s:
-	s.pressed_first_button = False
-
-if search or s.pressed_first_button:
-    s.pressed_first_button = True
-    
+if search or state.submitted:
+    state.submitted = True
     nextAction = write_response(response)
     while nextAction[0] == REFINE_KEY:
         user_input = get_text("refine")
@@ -86,4 +84,5 @@ if search or s.pressed_first_button:
 
     if nextAction[1] == EXPLORE_KEY:
         st.header("Now exploring: "+ nextAction[1])
+        state.submitted = False
         
