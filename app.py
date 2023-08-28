@@ -1,4 +1,5 @@
 import streamlit as st
+import st_state_patch
 
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts.chat import (
@@ -69,7 +70,13 @@ response = load_response(user_input, SEARCH_SYSTEM_PROMPT)
 
 search = st.button('Search')
 
-if search:
+s = st.State() 
+if not s:
+	s.pressed_first_button = False
+
+if search or s.pressed_first_button:
+    s.pressed_first_button = True
+    
     nextAction = write_response(response)
     while nextAction[0] == REFINE_KEY:
         user_input = get_text("refine")
