@@ -52,7 +52,9 @@ def write_search_response(rawResponse):
     if explore : 
         selected_prompt = get_text("selected_explore")
         return [EXPLORE_KEY, response[int(selected_prompt)]]
-                
+
+    st.write("We're out of write search")
+    
 
 def write_refine_response(rawResponse):
     response = rawResponse.content
