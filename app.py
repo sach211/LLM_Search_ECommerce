@@ -48,7 +48,7 @@ def write_search_response(rawResponse):
     while True:
         if refine :
             user_input = user_input.split(';')
-            return [REFINE_KEY,  response[int(user_input[0])] + "\n" + user_input[1]]
+            return [REFINE_KEY,  response[int(user_input[0])-1] + "\n" + user_input[1]]
         
         if explore : 
             return [EXPLORE_KEY, response[int(user_input)]]
