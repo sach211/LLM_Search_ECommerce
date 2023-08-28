@@ -36,32 +36,25 @@ def write_search_response(rawResponse):
     response = rawResponse.content.splitlines()
 
     st.write(response[0])
-    refine_0 = st.button('Refine', key = 'refine0')
-    explore_0 = st.button('Explore', key = 'explore0')
 
     st.write(response[1])
-    refine_1 = st.button('Refine', key = 'refine1')
-    explore_1 = st.button('Explore', key = 'explore1')
 
     st.write(response[2])
-    refine_2 = st.button('Refine', key = 'refine2')
-    explore_2 = st.button('Explore', key = 'explore2')
 
-    while(True):
-        if refine_0 :
-            return [REFINE_KEY, response[0]]
-        if explore_0 : 
-            return [EXPLORE_KEY, response[0]]
-        if refine_1 :
-            return [REFINE_KEY, response[1]]
-        if explore_1 : 
-            return [EXPLORE_KEY, response[1]]
-        if refine_2 :
-            return [REFINE_KEY, response[2]]
-        if explore_2 : 
-            return [EXPLORE_KEY, response[2]]
+    refine = st.button('Refine')
+    explore = st.button('Explore')
 
-def write_search_response(rawResponse):
+    if refine :
+        selected_prompt = get_text("selected_refine")
+        user_input = get_text("refine")
+        return [REFINE_KEY,  response[int(selected_prompt) + "\n " + user_input]]
+        
+    if explore : 
+        selected_prompt = get_text("selected_explore")
+        return [EXPLORE_KEY, response[int(selected_prompt)]]
+                
+
+def write_refine_response(rawResponse):
     response = rawResponse.content
 
     st.write(response)
@@ -69,10 +62,13 @@ def write_search_response(rawResponse):
     explore_r = st.button('Explore', key = 'explore_r')
 
     if refine_r:
-        return [REFINE_KEY, response]
+        selected_prompt = get_text("selected_refine")
+        user_input = get_text("refine")
+        return [REFINE_KEY,  response[int(selected_prompt) + "\n " + user_input]]
 
     if explore_r:
-        return [EXPLORE_KEY, response]
+        selected_prompt = get_text("selected_explore")
+        return [EXPLORE_KEY, response[int(selected_prompt)]]
 
 
 state = st.session_state
@@ -91,9 +87,7 @@ if search or state.submitted:
     state.submitted = True
     nextAction = write_search_response(response)
     while nextAction[0] == REFINE_KEY:
-        user_input = get_text("refine")
-        refine_query = nextAction[1] + "\n" + user_input
-        response = load_response(refine_query, REFINE_SYSTEM_PROMPT)
+        response = load_response(nextAction[1], REFINE_SYSTEM_PROMPT)
         nextAction = write_refine_response(response)
 
     if nextAction[1] == EXPLORE_KEY:
